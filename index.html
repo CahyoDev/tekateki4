@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>root@cahyok:~#</title>
+    <style>
+        body { background-color: black; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; }
+        input { background: transparent; border: none; color: #00ff00; font-family: inherit; font-size: 16px; outline: none; width: 50%; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="output">
+        <p>CahyoOS v1.0 (GNU/Linux)</p>
+        <p>Welcome to the secure server. Type 'help' to start.</p>
+    </div>
+    <span>root@guest:~$ </span>
+    <input type="text" id="cmd" autofocus autocomplete="off">
+
+    <script>
+        const input = document.getElementById("cmd");
+        const output = document.getElementById("output");
+
+        // CLUE DI CONSOLE (Hanya bisa dilihat lewat Inspect Element > Console)
+        console.log("%cHey, butuh password?", "color: yellow; font-size: 16px;");
+        console.log("Password file 'rahasia.txt' adalah nama karakter Genshin pengguna dadu (huruf kecil semua)");
+
+        input.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                let val = input.value.toLowerCase().trim();
+                let respon = "";
+
+                // LOGIKA TERMINAL
+                if (val === "help") {
+                    respon = "Available commands: <br> - ls (list files)<br> - cat [filename] (read file)<br> - clear";
+                } 
+                else if (val === "ls") {
+                    respon = "rahasia.txt &nbsp;&nbsp; system.log &nbsp;&nbsp; README.md";
+                } 
+                else if (val === "cat readme.md") {
+                    respon = "File ini berisi panduan untuk yang tersesat. Gunakan console browser untuk mencari petunjuk.";
+                }
+                else if (val.startsWith("cat rahasia.txt")) {
+                     // USER DIMINTA INPUT PASSWORD
+                     let pass = prompt("Enter password for rahasia.txt:");
+                     if (pass === "yelan") {
+                         // INI HADIAH JSON-NYA
+                         respon = `
+                            <br>ACCESS GRANTED.<br>
+                            =========================<br>
+                            DATA DITEMUKAN:<br>
+                            {<br>
+                              &nbsp; "target": "Instagram",<br>
+                              &nbsp; "username": "wooloodid",<br>
+                              &nbsp; "kunci_biner": "10101100",<br>
+                              &nbsp; "clue_filter": "Gunakan Filter Merah di videonya"<br>
+                            }<br>
+                            =========================<br>
+                         `;
+                     } else {
+                         respon = "Access Denied: Password Incorrect.";
+                     }
+                }
+                else if (val === "clear") {
+                    output.innerHTML = "";
+                    input.value = "";
+                    return;
+                }
+                else {
+                    respon = "Command not found: " + val;
+                }
+
+                output.innerHTML += "<p>root@guest:~$ " + val + "</p><p>" + respon + "</p>";
+                input.value = "";
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+    </script>
+</body>
+</html>
