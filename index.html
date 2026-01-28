@@ -2,10 +2,17 @@
 <html>
 <head>
     <title>root@cahyok:~#</title>
+    
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+        // Mengaktifkan tool console di HP
+        eruda.init();
+    </script>
     <style>
-        body { background-color: black; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; }
-        input { background: transparent; border: none; color: #00ff00; font-family: inherit; font-size: 16px; outline: none; width: 50%; }
-        .hidden { display: none; }
+        body { background-color: black; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; padding-bottom: 100px; }
+        input { background: transparent; border: none; color: #00ff00; font-family: inherit; font-size: 16px; outline: none; width: 60%; }
+        /* Style untuk menyembunyikan scrollbar tapi tetap bisa scroll */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
 <body>
@@ -20,9 +27,11 @@
         const input = document.getElementById("cmd");
         const output = document.getElementById("output");
 
-        // CLUE DI CONSOLE (Hanya bisa dilihat lewat Inspect Element > Console)
-        console.log("%cHey, butuh password?", "color: yellow; font-size: 16px;");
+        // === CLUE INI AKAN MUNCUL DI DALAM TOMBOL GEAR (CONSOLE) ===
+        console.log("%c⚠️ SYSTEM ALERT ⚠️", "color: red; font-size: 20px; font-weight: bold;");
+        console.log("%cHey, butuh password?", "color: yellow; font-size: 14px;");
         console.log("Password file 'rahasia.txt' adalah nama karakter Genshin pengguna dadu (huruf kecil semua)");
+        // ==========================================================
 
         input.addEventListener("keydown", function(e) {
             if (e.key === "Enter") {
@@ -37,15 +46,16 @@
                     respon = "rahasia.txt &nbsp;&nbsp; system.log &nbsp;&nbsp; README.md";
                 } 
                 else if (val === "cat readme.md") {
-                    respon = "File ini berisi panduan untuk yang tersesat. Gunakan console browser untuk mencari petunjuk.";
+                    respon = "File ini berisi panduan. Jika buntu, coba cari tombol 'Gear' di layar HP-mu dan cek bagian Console.";
                 }
                 else if (val.startsWith("cat rahasia.txt")) {
                      // USER DIMINTA INPUT PASSWORD
                      let pass = prompt("Enter password for rahasia.txt:");
+                     
                      if (pass === "yelan") {
-                         // INI HADIAH JSON-NYA
+                         // === INI HADIAH JSON-NYA ===
                          respon = `
-                            <br>ACCESS GRANTED.<br>
+                            <br><span style="color:cyan">ACCESS GRANTED.</span><br>
                             =========================<br>
                             DATA DITEMUKAN:<br>
                             {<br>
@@ -57,7 +67,7 @@
                             =========================<br>
                          `;
                      } else {
-                         respon = "Access Denied: Password Incorrect.";
+                         respon = "<span style='color:red'>Access Denied: Password Incorrect.</span>";
                      }
                 }
                 else if (val === "clear") {
@@ -71,9 +81,19 @@
 
                 output.innerHTML += "<p>root@guest:~$ " + val + "</p><p>" + respon + "</p>";
                 input.value = "";
+                // Auto scroll ke bawah setiap ketik
                 window.scrollTo(0, document.body.scrollHeight);
             }
         });
+        
+        // Agar pas dibuka di HP langsung fokus ke input keyboard
+        window.onload = function() {
+            input.focus();
+        };
+        // Agar kalau diklik sembarang tempat, keyboard muncul lagi
+        document.body.onclick = function() {
+            input.focus();
+        }
     </script>
 </body>
 </html>
